@@ -1,0 +1,80 @@
+ 
+<html>
+	<head>
+		<link rel='stylesheet' href='file:///home/mmp/.mNotes/bootstrap.min.css'></link>
+		<link rel="stylesheet" href='file:///home/mmp/.mNotes/globalstyles.css'></link>
+		<script src='file:///home/mmp/.mNotes/globalstyles.js'></script>
+	</head>
+	<body>
+		<style>body {padding: 0px; margin: 0px;}
+li {font-size: 16px;}
+h1, div {padding: 20px;}
+hr {border: solid 2px #847; }
+p {text-align: justify; }
+input {padding: 5px; width: 100%; border: solid 2px gray; border-radius: 5px; margin-bottom: 20px; outline: none;}
+textarea {padding: 5px; width: 100%; border: solid 2px gray; border-radius: 5px; margin-bottom: 20px; resize: none; outline: none;}
+select {padding: 5px; width: 100%; border: solid 2px gray; border-radius: 5px; margin-bottom: 20px; outline: none;}
+td{
+padding: 10px;
+}
+.rad, .chk {
+	width: auto;
+}
+</style><script>function loadsems() {
+		var list = document.getElementById('Semisters');
+		for(var i=1; i<9; i++) {
+			list.innerHTML += `<option value='${i}'>${i}</option>`;
+		}
+	}
+
+	function showresult() {
+		var elements = document.getElementsByTagName('input');
+		for(var i=0; i<elements.length; i++) {
+			if(elements[i].value == null) {
+				elements[i].style.border = "solid 1px red";
+			}
+		}
+		var table = document.getElementById('results'), langs = "";
+		document.getElementById('resultspanel').style.display = 'block';
+		for(var i=0; i<elements.length; i++) {
+			if(elements[i].type == "text") {
+				var val = elements[i].value;
+				table.innerHTML += `<tr><td>${elements[i].id}</td><td>${val}<td/>`;
+			} else if(elements[i].type == "checkbox" && elements[i].checked == true) {
+				langs += elements[i].value + "<br/>";
+			} else {
+				if(elements[i].checked == true) {
+					table.innerHTML += `<tr><td>Gender</td><td>${elements[i].value}<td/>`;
+				}
+			}
+		}
+		var e = document.getElementById('Semisters');
+		table.innerHTML += `<tr><td>Semister</td><td>${e.options[e.selectedIndex].value}<td/>`;
+		table.innerHTML += `<tr><td>Address</td><td>${document.getElementById('Address').value}<td/>`;
+		table.innerHTML += `<tr><td>Languages</td><td>${langs}<td/>`;
+	}
+</script><h1 style='color: #fff; background: url(http://wwwimages.adobe.com/content/dam/acom/en/products/creativecloud/market/cc2015/images/market-patterns-605x260.jpg); padding: 50px 30px; margin: 0px;'> <b style='background: #333; padding: 10px; border-radius: 5px;'> Register yourself here.  </b></h1><div style='padding: 30px; padding-top: 40px; height: 100%;'>
+
+	<div style='width: 45%; float: left;'>
+		<h3>Fill your details. </h3><hr></hr><br/><form style='padding: 0px 20px'>
+			First Name <br/><input type='text' id='First Name'> </input><br/>
+
+			Middle Name <br/><input type='text' id='Middle Name'> </input><br/>
+
+			Last Name <br/><input type='text' id='Last Name'> </input><br/>
+
+
+			Gender <br/><input type='radio' name='Gender' value='Male' class='rad'> Male </input>   
+			<input type='radio' name='Gender' value='Female' class='rad'> Female </input><br/><br/>
+
+			USN <br/><input type='text' id='USN'> </input><br/>
+
+			Semister <br/><select id='Semisters'> </select><br/><script>loadsems(); </script>	
+	
+			Address <br/><textarea rows='4' columns='30' id='Address'> </textarea><br/>	
+	
+			Languages <br/><br/><input type='checkbox' class='chk' value='Kannada'> </input><label>Kannada</label><br/><input type='checkbox' class='chk' value='English'> </input><label>English</label><br/><input type='checkbox' class='chk' value='Hindi'> </input><label>Hindi</label><br/><input type='checkbox' class='chk' value='Other'> </input><label>Other</label><br/></form><button onclick='showresult()' style='margin: 20px'> Submit.</button></div><div style='width:50%; height: 100%; float: left; display: none;' id='resultspanel'>
+		<h3>You entered... </h3><hr></hr><br/><table id='results'>
+		</table></div></div>
+	</body>
+</html> 

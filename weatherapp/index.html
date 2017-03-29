@@ -1,0 +1,140 @@
+<html>
+	<head>
+		<title>
+			mWeather
+		</title>
+		<style>
+
+div {
+	padding: 20px;
+/*	border: 1px solid orange; */
+}
+
+.mdivs {
+	padding: 0px;
+}
+
+.text-button {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	cursor: default;
+}
+
+/*
+table tr td {
+	table-layout: fixed;
+	border: 1px solid red;
+}*/
+
+.floaters {
+	background-color: black;
+	opacity: 0.4;
+	float: left;
+	margin: 5px;
+	padding: 10px;
+	width: 100%;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.fltcon {
+	height: 50px;
+	font-size: 24;
+	color: white;
+	opacity: 1.0;
+	padding: 10px;
+	margin-left: 20px;
+}
+
+		</style>
+	</head>
+	<body onload="showWeatherDummy()" style="font-family: Consolas, 'Segoe UI', Tahoma, Geneva, sans-serif; color: white; background-color: black; margin: 0px;">
+
+
+		<div style="margin: 0px; background: black; opacity: 0.8; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+
+			<table>
+
+				<tr>
+					<td id="place" style="font-size: 55;" rowspan="2">
+						My Place
+					</td>
+
+					<td rowspan="2" style="width: 100px;"/>
+
+					<td rowspan="2">
+						<img src="images/geolocation.png" height="45" width="45"/>
+					</td>
+
+					<td id="lat" style="vertical-align: bottom">
+						34.56
+					</td>
+					
+					<td rowspan="2" style="width: 45px;"/>
+					<td rowspan="2">
+						<input id="passwordBox" type="password" style="display: none; padding: 10px; width: 300px; vertical-align: bottom"/>
+					</td>
+					<td rowspan="2" class="text-button" onclick="showWeather()" title="App. Password" style="color: white; font-size: 45;">
+						&#128273;
+					</td>
+
+				</tr>
+				<tr>
+					<td id="lon" style="vertical-align: top">
+						23.76
+					</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div style="overflow: hidden">
+
+		<div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; float: left; clear: both" >
+
+			<!--div id="spanel" style="color: black; background-color: white; max-width: 400px;">
+			</div-->
+			<div class="mdivs" style="overflow: hidden">
+				<div id="tempav" style="font-size: 240; font-family: 'Segoe UI'; font-weight: lighter;">
+				</div>
+				<div id="summary" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 36px;">
+				</div>
+			</div>
+
+		</div>
+
+		<div style="overflow: hidden">
+				<div class="floaters">
+					<div>
+						Pressure
+					</div>
+					<div id="pressure" class="fltcon">
+						400 hPa
+					</div>
+				</div>
+				<div class="floaters">
+					<div>
+						Humidity
+					</div>
+					<div id="humidity" class="fltcon">
+						23.38%
+					</div>
+				</div>
+				<div class="floaters">
+					<div>
+						Wind
+					</div>
+					<div id="wind" class="fltcon">
+						3.45ms<sup>-1</sup> NE
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="script.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,64 @@
+ 
+<html>
+	<head>
+		<link rel='stylesheet' href='file:///home/mmp/.mNotes/bootstrap.min.css'></link>
+		<link rel="stylesheet" href='file:///home/mmp/.mNotes/globalstyles.css'></link>
+		<script src='file:///home/mmp/.mNotes/globalstyles.js'></script>
+	</head>
+	<body>
+		<style>li {font-size: 16px;}
+h1, div {padding: 20px;}
+hr {border: solid 2px #847; }
+p {text-align: justify; }
+input {padding: 5px; width: 100%; border: solid 2px gray; border-radius: 5px; margin-bottom: 20px; outline: none;}
+textarea {padding: 5px; width: 100%; border: solid 2px gray; border-radius: 5px; margin-bottom: 20px; resize: none; outline: none;}
+select {padding: 5px; width: 100%; border: solid 2px gray; border-radius: 5px; margin-bottom: 20px; outline: none;}
+td{
+padding: 10px;
+}
+</style><script>function loadstates() {
+		document.getElementById("Age").value = document.cookie.split('=')[1].split(';')[0];
+		var states = [
+			"Andhra Pradesh","Arunachal Pradesh", "Assam", "Bihar",
+			"Chhattisgarh", "Goa", "Gujarat", "Haryana","Himachal Pradesh",
+			"Jammu and Kashmir","Jharkhand","Karnataka","Kerala","Madhya Pradesh",
+			"Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha",
+			"Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura",
+			"Uttar Pradesh","Uttarakhand","West Bengal","Andaman and Nicobar Islands",
+			"Chandigarh","Dadar and Nagar Haveli",
+			"Daman and Diu","Delhi","Lakshadweep","Puducher"
+		];
+		var list = document.getElementById('State');
+		for(var i=0; i<states.length; i++) {
+			list.innerHTML += `<option>${states[i]}</option>`;
+		}
+	}
+
+	function showresult() {
+		var elements = ['Name', 'Voter Id', 'Phone Number', 'Address', 'Age', 'State'];
+		var table = document.getElementById('results');
+		for(var i=0; i<elements.length; i++) {
+			var val = document.getElementById(elements[i]).value;
+			table.innerHTML += `<tr><td>${elements[i]}</td><td>${val}<td/>`;
+		}
+		document.getElementById('resultspanel').style.display = 'block';
+	}
+</script><h1 style='color: #fff; background: url(http://wwwimages.adobe.com/content/dam/acom/en/products/creativecloud/market/cc2015/images/market-patterns-605x260.jpg); padding: 50px 30px; margin: 0px;'> <b style='background: #333; padding: 10px; border-radius: 5px;'> Register yourself here.  </b></h1><div style='padding: 30px; padding-top: 40px; height: 100%;'>
+
+	<div style='width: 45%; float: left;'>
+		<h3>Fill your details. </h3><hr></hr><br/><form style='padding: 0px 20px'>
+			Name <br/><input type='text' id='Name'> </input><br/>
+	
+			VoteIdNo <br/><input type='text' id='Voter Id'> </input><br/>
+	
+			PhoneNo <br/><input type='number' maxlength='10' id='Phone Number'> </input><br/>
+		
+			Address <br/><textarea rows='4' columns='30' id='Address'> </textarea><br/>	
+	
+			Age <br/><input type='text' readonly='true' id='Age'> </input><br/>		
+	
+			State <br/><select id='State'> </select><br/><script>loadstates(); </script></form><button onclick='showresult()'> Submit.</button></div><div style='width:50%; height: 100%; float: left; display: none;' id='resultspanel'>
+		<h3>You entered... </h3><hr></hr><br/><table id='results'>
+		</table></div></div>
+	</body>
+</html> 

@@ -1,0 +1,36 @@
+ 
+<html>
+	<head>
+		<link rel='stylesheet' href='file:///home/mmp/.mNotes/bootstrap.min.css'></link>
+		<link rel="stylesheet" href='file:///home/mmp/.mNotes/globalstyles.css'></link>
+		<script src='file:///home/mmp/.mNotes/globalstyles.js'></script>
+	</head>
+	<body>
+		<style>body {padding: 0px; margin: 0px;}
+h1, div {padding: 20px;}
+hr {border: solid 2px #847; }
+input {padding: 5px; width: 100%; border: solid 2px gray; border-radius: 5px; margin-bottom: 20px; outline: none;}
+</style><script>function calc() {
+		var x = G('x').value;
+		var y = G('y').value;
+		var res = 1;
+		var w = y;
+		while(y--) {
+			res *= x;
+		}
+		G('op').innerHTML = `${x}<sup>${w}</sup> = ${res}`;
+	}
+
+	function G(ele) {
+		return document.getElementById(ele);
+	}
+</script><h1 style='color: #fff; background: url(http://wwwimages.adobe.com/content/dam/acom/en/products/creativecloud/market/cc2015/images/market-patterns-605x260.jpg); padding: 50px 30px; margin: 0px;'> <b style='background: #333; padding: 10px; border-radius: 5px; font-family: monospace'> pow(x, y)  </b></h1><div style='padding: 30px; padding-top: 40px;'>
+
+	<div><h3>Fill x and y values and press Calculate button. </h3><hr></hr><br/><div style='padding: 0px 20px'>
+			X : 
+			<input type='text' id='x'> </input><br/>
+	
+			Y : 
+			<input type='text' id='y'> </input><br/><button onclick='calc()'> Submit.</button></div></div><div><center><h3 id='op'> </h3></center></div></div>
+	</body>
+</html> 

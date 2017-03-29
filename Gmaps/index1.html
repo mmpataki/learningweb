@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Geocoding service</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8">
+	<style>
+		/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+
+		#map {
+			height: 100%;
+		}
+		/* Optional: Makes the sample page fill the window. */
+
+
+		html,
+		body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+
+		#floating-panel {
+			position: absolute;
+			top: 10px;
+			left: 25%;
+			z-index: 5;
+			background-color: #fff;
+			padding: 5px;
+			border: 1px solid #999;
+			text-align: center;
+			font-family: 'Roboto', 'sans-serif';
+			line-height: 30px;
+			padding-left: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="map"></div>
+	<script>
+		var offices = [
+			{ "faddr": "Belthangady, Karnataka, India", "location": { "lat": 12.9886641, "lng": 75.27254540000001 } },
+			{ "faddr": "SL Mathias Rd, Attavar, Mangaluru, Karnataka 575001, India", "location": { "lat": 12.8646167, "lng": 74.84991590000004 } },
+			{ "faddr": "Puttur, Karnataka, India", "location": { "lat": 12.7686756, "lng": 75.20706440000004 } },
+			{ "faddr": "Kundapura, Karnataka, India", "location": { "lat": 13.6315963, "lng": 74.68999170000006 } },
+			{ "faddr": "Bandasale Bus Stop, Moodabidri- Bantwal Rd, Sornadu, Arala, Karnataka 574211, India", "location": { "lat": 12.9310602, "lng": 75.03783079999994 } },
+			{ "faddr": "Sullia, Karnataka, India", "location": { "lat": 12.5580735, "lng": 75.39076669999997 } },
+			{ "faddr": "Karkala, Karnataka, India", "location": { "lat": 13.2150997, "lng": 74.99617990000002 } },
+			{ "faddr": "Chikkaballapura, Karnataka, India", "location": { "lat": 13.432366, "lng": 77.72803959999999 } },
+			{ "faddr": "Brahmagiri, Udupi, Karnataka 576101, India", "location": { "lat": 13.3375081, "lng": 74.74325850000002 } },
+			{ "faddr": "Chintamani, Karnataka 563125, India", "location": { "lat": 13.4019689, "lng": 78.05513840000003 } },
+
+
+			{ "faddr": "Malur, Karnataka, India", "location": { "lat": 13.0034948, "lng": 77.94245309999997 } },
+			{ "faddr": "Srinivaspur, Karnataka 563135, India", "location": { "lat": 13.3305066, "lng": 78.20773680000002 } },
+			{ "faddr": "Bagepalli, Karnataka 561207, India", "location": { "lat": 13.784605, "lng": 77.79818339999997 } },
+			{ "faddr": "Gudibanda, Karnataka 561209, India", "location": { "lat": 13.6711326, "lng": 77.70371309999996 } },
+			{ "faddr": "Gauribidanur, Karnataka 561208, India", "location": { "lat": 13.6111591, "lng": 77.51695719999998 } },
+			//{"faddr": "Aralepete, Kolar"}
+			{ "faddr": "Sidlaghatta, Karnataka 562105, India", "location": { "lat": 13.3936652, "lng": 77.86531260000004 } },
+			{ "faddr": "Mulbagal, Karnataka 563131, India", "location": { "lat": 13.1666533, "lng": 78.39407370000004 } },
+			{ "faddr": "Sirsi, Karnataka, India", "location": { "lat": 14.6170943, "lng": 74.84486479999998 } },
+			{ "faddr": "Bangarapet, Karnataka, India", "location": { "lat": 12.9914907, "lng": 78.1787597 } },
+
+
+			{ "faddr": "Channapatna, Karnataka 562160, India", "location": { "lat": 12.6492422, "lng": 77.20027449999998 } },
+			{ "faddr": "Magadi, Karnataka, India", "location": { "lat": 12.9576756, "lng": 77.22614520000002 } },
+			{ "faddr": "Kanakapura, Karnataka 562117, India", "location": { "lat": 12.546222, "lng": 77.41987549999999 } },
+			{ "faddr": "Ramnagar, Uttarakhand 244715, India", "location": { "lat": 29.3947643, "lng": 79.12649970000007 } },
+			//{"faddr": "Katubhag, Karwar"}
+			{ "faddr": "Yellapur, Karnataka, India", "location": { "lat": 14.9643112, "lng": 74.71207679999998 } },
+			{ "faddr": "Kumta, Karnataka, India", "location": { "lat": 14.4275482, "lng": 74.41909290000001 } },
+			{ "faddr": "Honnavar, Karnataka, India", "location": { "lat": 14.2797502, "lng": 74.44392519999997 } },
+			{ "faddr": "Koppa Rural, Karnataka 577126, India", "location": { "lat": 13.532658, "lng": 75.35579269999994 } },
+			{ "faddr": "Dandeli, Karnataka, India", "location": { "lat": 15.2496775, "lng": 74.6173738 } },
+
+
+			{ "faddr": "Chickmagaluru, Karnataka, India", "location": { "lat": 13.315258, "lng": 75.77540180000005 } },
+			{ "faddr": "Mudigere, Karnataka, India", "location": { "lat": 13.1365287, "lng": 75.64032450000002 } },
+			{ "faddr": "Soraba, Karnataka 577429, India", "location": { "lat": 14.3811533, "lng": 75.10222709999994 } },
+			{ "faddr": "Sagar, Karnataka, India", "location": { "lat": 14.1670402, "lng": 75.0403 } },
+			{ "faddr": "Shivamogga, Karnataka, India", "location": { "lat": 13.9299299, "lng": 75.56810100000007 } },
+			{ "faddr": "Thirthahalli, Karnataka 577432, India", "location": { "lat": 13.6894963, "lng": 75.24498919999996 } },
+			{ "faddr": "Tarikere, Karnataka, India", "location": { "lat": 13.7086667, "lng": 75.81585900000005 } },
+			{ "faddr": "Kadur, Karnataka 577548, India", "location": { "lat": 13.5533476, "lng": 76.01111790000004 } },
+			{ "faddr": "Bhadravati, Karnataka, India", "location": { "lat": 13.8329901, "lng": 75.7080727 } },
+			{ "faddr": "Shikaripur, Karnataka 577427, India", "location": { "lat": 14.2673037, "lng": 75.35579269999994 } },
+
+
+
+			{ "faddr": "Rona, Karnataka 582209, India", "location": { "lat": 15.6995608, "lng": 75.73295919999998 } },
+			{ "faddr": "Gadag, Karnataka, India", "location": { "lat": 15.4324651, "lng": 75.63803370000005 } },
+			{ "faddr": "Hirekerur, Karnataka 581111, India", "location": { "lat": 14.4554926, "lng": 75.39513780000004 } },
+			{ "faddr": "Ranebennur, Karnataka 581115, India", "location": { "lat": 14.6113428, "lng": 75.63826569999992 } },
+			{ "faddr": "Shiggaon, Karnataka 581205, India", "location": { "lat": 14.9913752, "lng": 75.22165199999995 } },
+			{ "faddr": "Hangal, Karnataka 581104, India", "location": { "lat": 14.771781, "lng": 75.12534920000007 } },
+			{ "faddr": "Hosanagar, Karnataka 577418, India", "location": { "lat": 13.9153869, "lng": 75.06403499999999 } },
+			{ "faddr": "Haveri, Karnataka 581110, India", "location": { "lat": 14.7959027, "lng": 75.39712540000005 } },
+			{ "faddr": "Navalgund, Karnataka 582208, India", "location": { "lat": 15.5604653, "lng": 75.35564069999998 } },
+			{ "faddr": "Shirahatti, Karnataka 582120, India", "location": { "lat": 15.2312878, "lng": 75.57715729999995 } },
+
+
+
+			{ "faddr": "Ramdurg, Karnataka 591123, India", "location": { "lat": 15.9500493, "lng": 75.29748500000005 } },
+			{ "faddr": "Keshwapur, Hubballi, Karnataka 580023, India", "location": { "lat": 15.3560169, "lng": 75.1466504 } },
+			{ "faddr": "Saundatti-Yellamma, Karnataka, India", "location": { "lat": 15.7521513, "lng": 75.12534920000007 } },
+			{ "faddr": "Bailhongal, Karnataka 591102, India", "location": { "lat": 15.8132997, "lng": 74.85656130000007 } },
+			{ "faddr": "Chikodi, Karnataka 591201, India", "location": { "lat": 16.4291905, "lng": 74.58785460000001 } },
+			{ "faddr": "Somwarpet, Karnataka 571236, India", "location": { "lat": 12.5943101, "lng": 75.85049040000001 } },
+			{ "faddr": "Virajpet, Karnataka 571218, India", "location": { "lat": 12.1949851, "lng": 75.80400220000001 } },
+			{ "faddr": "Gokak, Karnataka, India", "location": { "lat": 16.1591849, "lng": 74.8156199 } },
+			{ "faddr": "Raibag, Karnataka 591317, India", "location": { "lat": 16.4941345, "lng": 74.7746684 } },
+			{ "faddr": "Saraswatipura, Renuka Nagar, Hubballi, Karnataka 580030, India", "location": { "lat": 15.3604078, "lng": 75.10089930000004 } },
+
+
+
+			{ "faddr": "Hukkeri, Karnataka 591309, India", "location": { "lat": 16.229158, "lng": 74.59904919999997 } },
+			{ "faddr": "Vikrampur, Athani, Karnataka 591304, India", "location": { "lat": 16.7236485, "lng": 75.05600400000003 } },
+			{ "faddr": "Khasbag, Vadagoan, Belagavi, Karnataka, India", "location": { "lat": 15.839616, "lng": 74.52728619999993 } },
+			{ "faddr": "Tumakuru, Karnataka, India", "location": { "lat": 13.3391677, "lng": 77.11399840000001 } },
+			{ "faddr": "Sira Rural, Karnataka 572137, India", "location": { "lat": 13.7509468, "lng": 76.91532810000001 } },
+			{ "faddr": "Khanapur, Karnataka, India", "location": { "lat": 15.6406634, "lng": 74.5170319 } },
+			{ "faddr": "Chikkanayakanahalli, Karnataka 572214, India", "location": { "lat": 13.4177165, "lng": 76.61851419999994 } },
+			{ "faddr": "Pavagada, Karnataka 572202, India", "location": { "lat": 14.1030998, "lng": 77.28074229999993 } },
+			{ "faddr": "Madhugiri, Karnataka 572132, India", "location": { "lat": 13.6643166, "lng": 77.20889869999996 } },
+			{ "faddr": "Koratagere, Karnataka 572129, India", "location": { "lat": 13.5239755, "lng": 77.23764140000003 } },
+
+
+
+			{ "faddr": "Davangere, Karnataka, India", "location": { "lat": 14.4663438, "lng": 75.92383970000003 } },
+			{ "faddr": "Kunigal, Karnataka 572130, India", "location": { "lat": 13.0259133, "lng": 77.0448907 } },
+			{ "faddr": "Harpanahalli, Karnataka 583131, India", "location": { "lat": 14.7809865, "lng": 75.98696089999999 } },
+			{ "faddr": "Tiptur, Karnataka, India", "location": { "lat": 13.2637814, "lng": 76.47029459999999 } },
+			{ "faddr": "Turuvekere, Karnataka 572227, India", "location": { "lat": 13.1605403, "lng": 76.66726019999999 } },
+			{ "faddr": "Jagalur, Karnataka 577528, India", "location": { "lat": 14.5200883, "lng": 76.3376786 } },
+			{ "faddr": "Channagiri, Karnataka, India", "location": { "lat": 14.0241989, "lng": 75.92600110000001 } },
+			{ "faddr": "Honnali, Karnataka 577217, India", "location": { "lat": 14.2342499, "lng": 75.64699339999993 } },
+			{ "faddr": "Gubbi, Karnataka 572216, India", "location": { "lat": 13.3117814, "lng": 76.9398195 } },
+			{ "faddr": "Harihar, Karnataka, India", "location": { "lat": 14.5304566, "lng": 75.80109620000007 } },
+
+
+
+			{ "faddr": "Chamarajanagar, Karnataka 571313, India", "location": { "lat": 11.9261471, "lng": 76.9437312 } },
+			{ "faddr": "Kollegal, Karnataka 571440, India", "location": { "lat": 12.1536786, "lng": 77.1111214 } },
+			{ "faddr": "Yelandur, Karnataka 571441, India", "location": { "lat": 12.0491263, "lng": 77.03053899999998 } },
+			{ "faddr": "Gundlupete, Karnataka 571111, India", "location": { "lat": 11.8083459, "lng": 76.69272590000003 } },
+			{ "faddr": "Koppal, Karnataka, India", "location": { "lat": 15.6218951, "lng": 76.1783739 } },
+			{ "faddr": "Challakere, Karnataka, India", "location": { "lat": 14.313395, "lng": 76.65282249999996 } },
+			{ "faddr": "Yelburga, Karnataka 583236, India", "location": { "lat": 15.6141511, "lng": 76.01307840000004 } },
+			{ "faddr": "Gangavathi, Karnataka, India", "location": { "lat": 15.431874, "lng": 76.53148169999997 } },
+			{ "faddr": "Kushtagi, Karnataka, India", "location": { "lat": 15.7518704, "lng": 76.19286399999999 } },
+			{ "faddr": "Hiriyur, Karnataka, India", "location": { "lat": 13.9438209, "lng": 76.61607329999993 } },
+
+
+
+			{ "faddr": "Mysuru, Karnataka, India", "location": { "lat": 12.2958104, "lng": 76.63938050000002 } },
+			{ "faddr": "Molakalmuru, Karnataka 577535, India", "location": { "lat": 14.7165215, "lng": 76.74663780000003 } },
+			{ "faddr": "Hosadurga, Karnataka 577527, India", "location": { "lat": 13.7985261, "lng": 76.28505670000004 } },
+			{ "faddr": "Krishnarajanagara, Karnataka 571602, India", "location": { "lat": 12.4400123, "lng": 76.38109220000001 } },
+			{ "faddr": "Holalkere Rural, Karnataka 577526, India", "location": { "lat": 14.0541336, "lng": 76.19576180000001 } },
+			{ "faddr": "Chitradurga, Karnataka, India", "location": { "lat": 14.2305594, "lng": 76.3984537 } },
+			{ "faddr": "Arakalagud, Karnataka 573102, India", "location": { "lat": 12.7639683, "lng": 76.06094759999996 } },
+			{ "faddr": "Pura, Karnataka 571606, India", "location": { "lat": 12.3739761, "lng": 76.59938899999997 } },
+			{ "faddr": "Heggadadevankote, Karnataka 571114, India", "location": { "lat": 12.0879642, "lng": 76.33188900000005 } },
+			{ "faddr": "Hunsur, Karnataka 571105, India", "location": { "lat": 12.3009419, "lng": 76.28845920000003 } },
+
+
+
+			{ "faddr": "Mandya, Karnataka, India", "location": { "lat": 12.5221567, "lng": 76.90091910000001 } },
+			{ "faddr": "Srirangapatna, Karnataka, India", "location": { "lat": 12.4215561, "lng": 76.69312730000001 } },
+			{ "faddr": "Nagamangala, Karnataka 571432, India", "location": { "lat": 12.8271447, "lng": 76.7596221 } },
+			{ "faddr": "Madduru, Karnataka 571428, India", "location": { "lat": 12.5839436, "lng": 77.04349339999999 } },
+			{ "faddr": "Nanjanagudu, Karnataka, India", "location": { "lat": 12.1199769, "lng": 76.68009299999994 } },
+			{ "faddr": "Krishnarajpete, Karnataka 571426, India", "location": { "lat": 12.6558313, "lng": 76.48811799999999 } },
+			{ "faddr": "Nelamangala, Karnataka, India", "location": { "lat": 13.0874193, "lng": 77.41100640000002 } },
+			{ "faddr": "Malavalli, Karnataka, India", "location": { "lat": 12.3853432, "lng": 77.05357979999997 } },
+			{ "faddr": "Pandavapura, Karnataka, India", "location": { "lat": 12.4928616, "lng": 76.66428530000007 } },
+			{ "faddr": "Doddaballapura, Karnataka, India", "location": { "lat": 13.2927263, "lng": 77.53890690000003 } },
+
+
+			{ "faddr": "Hassan, Karnataka, India", "location": { "lat": 13.0068142, "lng": 76.09955190000005 } },
+			{ "faddr": "Belur, Karnataka, India", "location": { "lat": 13.1623166, "lng": 75.86791949999997 } },
+			{ "faddr": "Sakleshpur, Karnataka, India", "location": { "lat": 12.9441511, "lng": 75.7865653 } },
+			{ "faddr": "Holenarasipur, Karnataka 573211, India", "location": { "lat": 12.784906, "lng": 76.24356690000002 } },
+			{ "faddr": "Devanahalli, Southegowdanahalli, Karnataka 562110, India", "location": { "lat": 13.2417155, "lng": 77.71373059999996 } },
+			{ "faddr": "Arsikere, Karnataka 573103, India", "location": { "lat": 13.3104549, "lng": 76.25370520000001 } },
+			{ "faddr": "Jamkhandi, Karnataka 587301, India", "location": { "lat": 16.5043199, "lng": 75.29175120000002 } },
+			{ "faddr": "Alur Rural, Karnataka 573213, India", "location": { "lat": 12.9834202, "lng": 75.98986309999998 } },
+			{ "faddr": "Hoskote, Karnataka, India", "location": { "lat": 13.0730023, "lng": 77.79669749999994 } },
+			{ "faddr": "Channarayapattana, Karnataka, India", "location": { "lat": 12.9000208, "lng": 76.38986369999998 } },
+
+
+			{ "faddr": "Devadurga, Karnataka 584111, India", "location": { "lat": 16.4235352, "lng": 76.93549789999997 } },
+			{ "faddr": "Badami, Karnataka 587201, India", "location": { "lat": 15.918622, "lng": 75.67608199999995 } },
+			{ "faddr": "Lingsugur, Karnataka 584122, India", "location": { "lat": 16.1550404, "lng": 76.51991950000001 } },
+			{ "faddr": "Bagalkot, Karnataka, India", "location": { "lat": 16.1725355, "lng": 75.6557206 } },
+			{ "faddr": "Mudhol, Karnataka 587313, India", "location": { "lat": 16.3333105, "lng": 75.28582080000001 } },
+			{ "faddr": "Raichur, Karnataka, India", "location": { "lat": 16.2120031, "lng": 77.34392830000002 } },
+			{ "faddr": "Hoovina Hadagali, Karnataka 583219, India", "location": { "lat": 15.0199533, "lng": 75.93180800000005 } },
+			{ "faddr": "Sindhanur, Karnataka, India", "location": { "lat": 15.7702099, "lng": 76.75604950000002 } },
+			{ "faddr": "Hungund, Karnataka 587118, India", "location": { "lat": 16.0576259, "lng": 76.06094759999996 } },
+			{ "faddr": "Manvi, Karnataka 584123, India", "location": { "lat": 15.9951034, "lng": 77.04781120000007 } },
+
+
+			{ "faddr": "Ballari, Karnataka, India", "location": { "lat": 15.1393932, "lng": 76.92144280000002 } },
+			{ "faddr": "Hagaribommanahalli, Karnataka 583212, India", "location": { "lat": 15.0456393, "lng": 76.20735250000007 } },
+			{ "faddr": "Sandur, Karnataka 583119, India", "location": { "lat": 15.0873798, "lng": 76.54774109999994 } },
+			{ "faddr": "Siruguppa, Karnataka, India", "location": { "lat": 15.6175163, "lng": 76.90058169999998 } },
+			{ "faddr": "Hosapete, Karnataka, India", "location": { "lat": 15.2688542, "lng": 76.3909241 } },
+			{ "faddr": "Kudligi, Karnataka 583135, India", "location": { "lat": 14.9053562, "lng": 76.3897733 } },
+			{ "faddr": "Kumbla (Kumble), Kerala, India", "location": { "lat": 12.5945539, "lng": 74.947181 } }
+		];
+		var climit = 10; 		/* limit per second */
+		var map, geocoder;
+		var nextquant = 0;
+		var infoWindow;
+		var markers = [];
+
+		function initMap() {
+			infoWindow = new google.maps.InfoWindow();
+			map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 8,
+				center: offices[0].location
+			});
+			geocoder = new google.maps.Geocoder();
+			
+			for(var i=0; i<offices.length; i++) {
+				var html = `<b>${offices[i].faddr}</b>`;
+				var marker = new google.maps.Marker({
+					map: map,
+					position: offices[i].location
+				});
+				markers.push(marker);
+				marker.addListener('click', function() {
+					infoWindow.setContent(html);
+					infoWindow.open(map, marker);
+				});
+			}
+			//schedule(nextquant + 130);
+		}
+
+		function schedule(nextquant) {
+			for (var i = nextquant; i < (nextquant + climit) && i < offices.length; i++) {
+				geocodeAddress(offices[i]);
+			}
+		}
+
+		function geocodeAddress(address) {
+			geocoder.geocode({ 'address': address }, function (results, status) {
+				if (status === 'OK') {
+					map.setCenter(results[0].geometry.location);
+					var marker = new google.maps.Marker({
+						map: map,
+						position: results[0].geometry.location
+					});
+					var lat = results[0].geometry.location.lat();
+					var lng = results[0].geometry.location.lng();
+					document.getElementById("mdiv").innerHTML += `{"faddr": "${results[0].formatted_address}", "location": {"lat": ${lat}, "lng": ${lng}}},<br/>`;
+				} else {
+					document.getElementById("mdiv").innerHTML += `//{"faddr": "${address}"}<br/>`;
+				}
+			});
+		}
+	</script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXCm6pRFGVtnD1_JhkZmS4o80_j5MvCMk&callback=initMap">
+
+	</script>
+	<div id="mdiv" style="height: 100%; width: 100%; z-index: 1; position: fixed">
+	</div>
+</body>
+
+</html>
