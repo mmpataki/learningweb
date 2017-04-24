@@ -28,6 +28,11 @@ var projects = [
 		'title': 'chartjs',
 		'link': 'mchartjs/index.html',
 		'date': '28-Feb-2017'
+	},
+	{
+		'title': 'Gmaps',
+		'link': 'Gmaps/index.html',
+		'date': '24-Apr-2017'
 	}
 ];
       
